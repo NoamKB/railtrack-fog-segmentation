@@ -86,3 +86,31 @@ GPATH
 GRTAGS
 GSYMS
 GTAGS
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+.env
+
+# IDEs
+.idea/
+.vscode/
+
+# Notebooks
+*.ipynb_checkpoints
+
+# Project-specific: ignore large data and output
+data/
+model/
+output/
+*.pth
+
+# Reports or zipped exports
+*.pdf
+*.docx
+*.zip
+*.tar.gz

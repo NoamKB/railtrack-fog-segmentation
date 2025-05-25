@@ -1,68 +1,86 @@
-[![DOI](https://zenodo.org/badge/285561781.svg)](https://zenodo.org/badge/latestdoi/285561781)
+# Foggy Railway Segmentation Project
 
-# 📝 proof-of-concept rail marking detections for autonomous train system #
-***
+## Overview
 
-This project implements rail-track detection using fast semantic segmentation for high-resolution images from [bisenetv2 algorithm](https://arxiv.org/abs/2004.02147).
+This project focuses on segmenting railway tracks in foggy conditions using the BiSeNetV2 model. It covers preprocessing, pseudo-labeling, targeted fine-tuning, and result analysis.
 
-The author of [bisenetv2](https://arxiv.org/abs/2004.02147) has not made the official implementation public so the implementation in this project might yeild different performance with the network introduced in the original paper.
+---
 
-This project trains [bisenetv2](https://arxiv.org/abs/2004.02147) on a modified version of [RailSem19 dataset](https://ieeexplore.ieee.org/document/9025646) with only three labels ("rail-raised", "rail-track", "background"). Please follow [here](https://wilddash.cc/railsem19) if you want to download the original dataset.
+## 📁 Project Structure
 
-![sample video result](./data/samples/video_result.gif)
-
-
-## :tada: TODO
-***
-
-- [x] Implement bisenetv2 and train on modified railsem19 dataset
-- [ ] Refine the semantic mask using connected components algorithm
-- [ ] Cluster the mask to obtain seperate railtrack
-
-## 🎛  Dependencies
-***
-
-- create rail_marking conda environment
-
-```bash
-    conda env create --file environment.yml
+```rail_marking/
+├── cfg/ # Model configuration files
+├── data/                   # Input datasets (clear/fog/hard_example)
+├── model/                  # Trained checkpoints (.pth)
+├── my_scripts/ # Pseudo-labels, fine-tuning, comparison tools
+├── notebooks/ # Evaluation notebooks
+├── output/ # Inference results (before/after)
+├── rail_marking/ # Core model, training, data loaders
+├── scripts/ # Main training/inference scripts
+├── tests/ # Unit tests
+├── requirements.txt
+├── environment.yml
+├── setup.py
+├── pyproject.toml
+├── README.md
+├── Railtrack Segmentation Project Report.pdf
 ```
 
-- activate conda environment
-```bash
-    conda activate rail_marking
-```
+---
 
-## :running: How to Run ##
-***
+📂 External Resources (Data & Outputs)
+Due to size constraints, datasets, model checkpoints and inference results are hosted externally.
 
-Download trained weights from [HERE](https://drive.google.com/file/d/11FAmJR79bmO0SjzQIqBvWD8Zy9MTWYw2/view?usp=sharing).
+👉 Access all project resources here (https://drive.google.com/drive/folders/13orpV4tsqUL9mubSU6Mx9xsqm8MOvBhg?usp=drive_link)
 
-- Test single image
+Contents:
+/data/clear/, /data/fog/, /data/hard_example/ – Input datasets and pseudo-labels
 
-```bash
-    python ./scripts/segmentation/test_one_image.py -snapshot [path/to/trained/weight] -image_path [path/to/image/path]
-```
+/model_checkpoints/ – All .pth files (pretrained and fine-tuned)
 
-Sample segmentation result:
+/output/ – Inference results and visual comparisons
 
-![sample rail result](./data/samples/sample_rail_result.jpg)
+---
 
-- Test video
+## 📂 Downloaded Resources – Where to Place Them
 
-Download sample video from [HERE](https://drive.google.com/file/d/1B4FDdsaGF_F6Gm-E4ayOOG8A2EEbCyBQ/view?usp=sharing).
+After downloading the project files from Google Drive, place the folders **in the root directory of the project**, at the same level as `README.md`.
 
-The video was originally downloaded from this [youtube channel](https://www.youtube.com/watch?v=-5T-J_Bp0g4).
+---
+
+## ⚙️ Setup Instructions
 
 ```bash
-    python ./scripts/segmentation/test_video.py -snapshot [path/to/trained/weight] -video_path [path/to/video/path]
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-The test result can be seen as the gif image above.
-The frame rate could reach 40fps, faster than needed for an autonomous system.
+---
 
-## :gem: References ##
-***
+## 📊 Evaluation Methods
 
-- [BiSeNet V2: Bilateral Network with Guided Aggregation for Real-time Semantic Segmentation](https://arxiv.org/abs/2004.02147)
-- [RailSem19: A Dataset for Semantic Rail Scene Understanding](https://openaccess.thecvf.com/content_CVPRW_2019/html/WAD/Zendel_RailSem19_A_Dataset_for_Semantic_Rail_Scene_Understanding_CVPRW_2019_paper.html)
+- Visual overlays & inspection
+- Entropy, skewness, Bhattacharyya distance
+- Tracking performance on hard examples
+
+---
+
+## 🎯 Evaluation Access
+
+All results and models are fully reproducible.  
+Please refer to [`fog_segmentation_evaluation.ipynb`](notebooks/fog_segmentation_evaluation.ipynb) for step-by-step visualization and comparison.
+
+For further questions or full-resolution visual results, feel free to reach out.
+
+---
+
+## 📎 Notes
+
+- See `report.pdf` for detailed write-up
+- Pseudo-labeling and correction were essential for fog adaptation
+
+---
+
+### 🔗 Based on
+Original baseline from https://github.com/xmba15/rail_marking (BiSeNetV2)

@@ -117,6 +117,9 @@ class TrainerBase:
             if (epoch + 1) % self._save_period == 0:
                 self._save_checkpoint(epoch, save_best=True)
 
+        # ALWAYS save final model
+        self._save_checkpoint(self._num_epochs, save_best=True)
+
         return logs
 
     @staticmethod
